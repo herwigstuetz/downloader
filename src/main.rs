@@ -1,11 +1,11 @@
 use std::env;
-use std::vec::Vec;
 use std::string::String;
+use std::vec::Vec;
 
 use downloader::*;
 
 fn main() {
-    let args : Vec<String> = env::args().collect();
+    let args: Vec<String> = env::args().collect();
 
     let url = &args[1];
 

@@ -1,9 +1,8 @@
-use std::path::Path;
 use std::fs::File;
 use std::io;
+use std::path::Path;
 
 use reqwest;
-
 
 #[derive(Debug)]
 pub enum Error {
@@ -15,7 +14,6 @@ type Result<T> = std::result::Result<T, Error>;
 
 #[no_mangle]
 pub fn download(url: &str, tmp: &str) -> Result<String> {
-
     // Make GET request for url
     let mut response = match reqwest::blocking::get(url) {
         Ok(response) => response,
@@ -31,12 +29,13 @@ pub fn download(url: &str, tmp: &str) -> Result<String> {
         .unwrap_or("");
 
     // Get filename from Content-Disposition
-    let filename : String = content_disposition
+    let filename: String = content_disposition
         .split("; ")
         .filter(|s| s.contains("filename"))
         .collect::<String>()
         .split("=")
-        .collect::<Vec<&str>>()[1].to_string();
+        .collect::<Vec<&str>>()[1]
+        .to_string();
     println!("headers: {:#?}", &filename);
 
     // Append filename to tmp directory
