@@ -5,8 +5,6 @@ use std::path::Path;
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 
-use reqwest;
-
 #[derive(Debug)]
 pub enum Error {
     Request(reqwest::Error),
