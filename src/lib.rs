@@ -29,14 +29,23 @@ pub fn download(url: &str, tmp: &str) -> Result<String> {
         .unwrap_or("");
 
     // Get filename from Content-Disposition
-    let filename: String = content_disposition
+    let filename = content_disposition
         .split("; ")
         .filter(|s| s.contains("filename"))
         .collect::<String>()
         .split("=")
-        .collect::<Vec<&str>>()[1]
-        .to_string();
-    println!("headers: {:#?}", &filename);
+        .collect::<Vec<&str>>()
+        .get(1)
+        .and_then(|file| Some(file.to_string()) );
+
+    let filename = match filename {
+        Some(filename) => {
+            println!("headers: {:#?}", &filename);
+            filename
+        },
+        None => { "out.download".to_string() },
+    };
+
 
     // Append filename to tmp directory
     let fname = Path::new(tmp).join(filename);
