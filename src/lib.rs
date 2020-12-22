@@ -10,6 +10,21 @@ pub enum Error {
 
 type Result<T> = std::result::Result<T, Error>;
 
+/// Downloads the `url` to the directory `tmp`.
+///
+/// Return the `PathBuf` to the downloaded file.
+///
+/// # Errors
+///
+/// If `url` cannot be retrieved, or the file cannot be saved to `tmp`, returns `Error`.
+///
+/// # Examples
+///
+/// ```
+/// use downloader;
+/// use std::path::PathBuf;
+/// let file = downloader::download("https://sh.rustup.rs", &PathBuf::from("/tmp"));
+/// ```
 pub fn download(url: &str, tmp: &Path) -> Result<PathBuf> {
     // Make GET request for url
     let mut response = match reqwest::blocking::get(url) {
@@ -59,6 +74,8 @@ pub fn download(url: &str, tmp: &Path) -> Result<PathBuf> {
 use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 
+/// Downloads `url` to the directory `tmp` and returns the path to the
+/// downloaded file.
 #[no_mangle]
 pub extern "C" fn dl_download(url: *const c_char, tmp: *const c_char) -> *mut c_char {
     if url.is_null() {
@@ -90,6 +107,7 @@ pub extern "C" fn dl_download(url: *const c_char, tmp: *const c_char) -> *mut c_
         .unwrap_or(std::ptr::null_mut())
 }
 
+/// Frees `char` pointers returned by `dl_download`.
 #[no_mangle]
 pub extern "C" fn dl_free(s: *mut c_char) {
     unsafe {
