@@ -102,14 +102,13 @@ pub extern "C" fn dl_free(s: *mut c_char) {
 
 #[cfg(test)]
 mod tests {
+    use std::sync::Arc;
+
     use actix_rt;
     use actix_web::{http::header, web, App, HttpResponse, HttpServer};
 
     use tempfile;
-
     use tokio;
-
-    use std::sync::Arc;
 
     async fn serve() -> std::io::Result<()> {
         let server = HttpServer::new(|| {
