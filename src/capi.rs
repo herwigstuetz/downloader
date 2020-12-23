@@ -33,7 +33,7 @@ pub extern "C" fn dl_download(url: *const c_char, tmp: *const c_char) -> *mut c_
         .as_ref()
         .and_then(|f| f.to_str())
         .and_then(|s| CString::new(s).ok())
-        .and_then(|s| Some(s.into_raw()))
+        .map(|s| s.into_raw())
         .unwrap_or(std::ptr::null_mut())
 }
 
