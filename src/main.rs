@@ -1,4 +1,5 @@
-use downloader;
+//use downloader;
+mod downloader;
 
 use std::env;
 use std::path::Path;
