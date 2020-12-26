@@ -28,7 +28,7 @@ audit:
 ## Run cargo tarpaulin
 coverage:
 	@cargo tarpaulin --ignore-tests
-.PHONE: coverage
+.PHONY: coverage
 
 ## Build project
 build:
