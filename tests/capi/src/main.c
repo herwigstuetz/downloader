@@ -1,5 +1,5 @@
 #include "stdio.h"
-#include "bindings.h"
+#include "downloader.h"
 
 int main() {
     char * file = dl_download("http://orf.at", "/tmp");

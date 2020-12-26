@@ -1,15 +1,17 @@
-project( downloader-c )
-cmake_minimum_required( VERSION 2.6 )
-add_executable( ${PROJECT_NAME} src/main.c )
+project(downloader-c)
+cmake_minimum_required(VERSION 3.12)
 
-target_include_directories ( ${PROJECT_NAME}
-  PRIVATE ../..)
-target_link_directories ( ${PROJECT_NAME}
+find_package(downloader REQUIRED)
+
+add_executable(
+  ${PROJECT_NAME}
+  src/main.c
+  )
+
+target_link_libraries (
+  ${PROJECT_NAME}
   PRIVATE
-  src)
-#  ../../target/debug
-#  /home/herwig/downloader/target/debug)
-target_link_libraries ( ${PROJECT_NAME}
-  PRIVATE downloader ssl crypto dl pthread m)
+  downloader
+  )
 
-install(TARGETS ${PROJECT_NAME} )
+install(TARGETS ${PROJECT_NAME})
