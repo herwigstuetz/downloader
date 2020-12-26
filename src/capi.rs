@@ -7,6 +7,7 @@ use std::path::Path;
 /// Downloads `url` to the directory `tmp` and returns the path to the
 /// downloaded file.
 #[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub extern "C" fn dl_download(url: *const c_char, tmp: *const c_char) -> *mut c_char {
     if url.is_null() {
         return std::ptr::null_mut();
@@ -39,11 +40,12 @@ pub extern "C" fn dl_download(url: *const c_char, tmp: *const c_char) -> *mut c_
 
 /// Frees `char` pointers returned by `dl_download`.
 #[no_mangle]
+#[allow(clippy::not_unsafe_ptr_arg_deref)]
 pub extern "C" fn dl_free(s: *mut c_char) {
+    if s.is_null() {
+        return;
+    }
     unsafe {
-        if s.is_null() {
-            return;
-        }
-        CString::from_raw(s)
-    };
+        CString::from_raw(s);
+    }
 }

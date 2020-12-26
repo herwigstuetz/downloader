@@ -44,10 +44,10 @@ pub fn download(url: &str, tmp: &Path) -> Result<PathBuf> {
         .split("; ")
         .filter(|s| s.contains("filename"))
         .collect::<String>()
-        .split("=")
+        .split('=')
         .collect::<Vec<&str>>()
         .get(1)
-        .and_then(|file| Some(file.to_string()));
+        .map(|file| file.to_string());
 
     let filename = match filename {
         Some(filename) => filename,
@@ -65,7 +65,7 @@ pub fn download(url: &str, tmp: &Path) -> Result<PathBuf> {
 
     // Write data from response (attachment) into destination
     match io::copy(&mut response, &mut dest) {
-        Ok(_) => Ok(PathBuf::from(fname)),
+        Ok(_) => Ok(fname),
         Err(err) => Err(Error::File(err)),
     }
 }
