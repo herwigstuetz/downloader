@@ -30,6 +30,18 @@ coverage:
 	@cargo tarpaulin --ignore-tests
 .PHONE: coverage
 
+## Build project
+build:
+	@cargo build --release
+
+## Build c project tests/capi
+downloader-c: build
+	@mkdir -p tests/capi/downloader/include
+	@mkdir -p tests/capi/downloader/lib
+	@cp ./target/release/*.a tests/capi/downloader/lib/
+	@cp ./target/release/downloader.h tests/capi/downloader/include/
+	@mkdir -p tests/capi/build
+	@cd tests/capi/build && cmake -Ddownloader_DIR=`pwd`/../downloader/ .. && make -j
 
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
