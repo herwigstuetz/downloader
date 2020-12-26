@@ -43,6 +43,9 @@ downloader-c: build
 	@mkdir -p tests/capi/build
 	@cd tests/capi/build && cmake -Ddownloader_DIR=`pwd`/../downloader/ .. && make -j
 
+ci: fmt lint audit coverage build downloader-c
+.PHONY: all
+
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 WHITE  := $(shell tput -Txterm setaf 7)
