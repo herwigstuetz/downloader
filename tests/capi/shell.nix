@@ -7,8 +7,11 @@ let
 in
 pkgs.stdenv.mkDerivation {
   name = "cmake-shell";
-  buildInputs =(with pkgs; [
+
+  nativeBuildInputs = project.nativeBuildInputs;
+
+  buildInputs = with pkgs; [
     cmake
     ccls
-  ]);
+  ] ++ project.buildInputs;
 }
